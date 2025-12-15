@@ -12,9 +12,9 @@
 
 > 请将截图文件放入 `docs/images/` 目录，并替换下方的文件名。
 
-| 首页预览 | 菜单预览 |
-| :---: | :---: |
-| <img src="docs/images/ep1.jpg" alt="首页" width="300" /> | <img src="docs/images/menu_preview.png" alt="菜单" width="300" /> |
+| 首页预览 | 工具箱预览 | 我的页面预览 |
+| :---: | :---: | :---: |
+| <img src="docs/images/ep1.jpg" alt="首页" width="300" /> | <img src="docs/images/ep2.jpg" alt="工具箱" width="300" /> | <img src="docs/images/ep.jpg" alt="我的页面" width="300" /> |
 
 *(注：以上为示例占位符，请上传实际图片后显示)*
 
