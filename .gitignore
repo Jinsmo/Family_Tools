@@ -1,0 +1,78 @@
+# ----------------------
+# 核心依赖与构建 (Core & Build)
+# ----------------------
+node_modules/
+dist/
+dist-ssr/
+*.local
+sql_exp/
+
+# ----------------------
+# 前端特定 (Frontend)
+# ----------------------
+frontend/dist/
+frontend/node_modules/
+frontend/.env.local
+frontend/.env.*.local
+frontend/stats.html
+
+# ----------------------
+# 环境变量与密钥 (Secrets)
+# ----------------------
+.env
+.env.production
+.env.test
+.env.local
+
+# ----------------------
+# 日志文件 (Logs)
+# ----------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ----------------------
+# 运行时上传文件 (Uploads)
+# ----------------------
+# 忽略上传文件夹下的所有内容
+uploads/
+# 但保留 uploads 目录结构 (如果需要)
+!uploads/.gitkeep
+
+# ----------------------
+# IDE 与编辑器配置 (IDE & Editors)
+# ----------------------
+.trae/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.swp
+
+# ----------------------
+# 操作系统文件 (OS)
+# ----------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ----------------------
+# 测试覆盖率 (Coverage)
+# ----------------------
+coverage/
+*.lcov
+

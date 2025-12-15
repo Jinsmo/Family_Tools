@@ -1,0 +1,37 @@
+{
+  "name": "fm_tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "dev:watch": "tsx watch src/index.ts",
+    "dev:all": "concurrently \"npm run dev\" \"wait-on http://127.0.0.1:3000/health && npm run dev --prefix frontend\"",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "mysql2": "^3.11.3",
+    "openai": "^6.10.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@iconify-json/ph": "^1.2.2",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^20.11.17",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.6.3",
+    "wait-on": "^8.0.5"
+  }
+}

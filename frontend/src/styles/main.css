@@ -1,0 +1,227 @@
+:root { --accent: #007AFF; }
+html.dark { --bg: #000000; --bg-card: #1c1c1e; --bg-card-rgb: 28, 28, 30; --fg: #e6e8eb; --surface: #1c1c1e; --surface-2: #2c2c2e; --border: #38383a; --placeholder: #636366; }
+html:not(.dark) { --bg: #f2f2f7; --bg-card: #ffffff; --bg-card-rgb: 255, 255, 255; --fg: #1c1c1e; --surface: #ffffff; --surface-2: #f2f2f7; --border: #d1d1d6; --placeholder: #8e8e93; }
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; }
+body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Inter, Helvetica Neue, Arial, sans-serif; background: var(--bg); color: var(--fg); }
+
+/* 全局主题过渡 */
+body, 
+#app,
+.van-nav-bar,
+.van-cell,
+.van-field,
+.van-cell-group,
+.van-popup,
+.van-dialog,
+input,
+textarea,
+button {
+  transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              border-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.van-button--primary { background-color: var(--accent); border-color: var(--accent); }
+.van-nav-bar { background: rgba(255,255,255,0.06); backdrop-filter: saturate(180%) blur(8px); }
+/* 暗色输入适配 */
+html.dark .van-cell-group--inset { background: var(--surface-2); }
+html.dark .van-cell, html.dark .van-field { background: transparent; }
+html.dark .van-field__body { background: transparent; }
+html.dark .van-field__control { color: var(--fg); background: transparent; }
+html.dark .van-field__control::placeholder { color: var(--placeholder); }
+html.dark .van-cell__title, html.dark .van-field__label { color: var(--fg); }
+html.dark .van-cell__value, html.dark .van-field__value { color: var(--fg); }
+html.dark .van-hairline--top-bottom::after, html.dark .van-hairline--surround::after, html.dark .van-hairline--top::after, html.dark .van-hairline--bottom::after { border-color: var(--border); }
+
+/* 暗色模式 Dialog 适配 */
+html.dark .van-dialog {
+  background: #2c2c2e;
+  color: var(--fg);
+}
+
+html.dark .van-dialog__header {
+  color: var(--fg);
+}
+
+html.dark .van-dialog__message {
+  color: #a3a3a3;
+}
+
+html.dark .van-dialog__confirm,
+html.dark .van-dialog__cancel {
+  background: #2c2c2e;
+}
+
+html.dark .van-dialog__confirm {
+  color: var(--accent);
+}
+
+html.dark .van-dialog__cancel {
+  color: var(--fg);
+}
+
+/* 暗色模式 Navbar 适配 */
+html.dark .van-nav-bar {
+  background: rgba(28, 28, 30, 0.6);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+html.dark .van-nav-bar__title {
+  color: var(--fg);
+}
+
+html.dark .van-nav-bar .van-icon {
+  color: var(--fg);
+}
+
+/* 修复 Dialog 按钮边框颜色 */
+html.dark .van-hairline--top::after,
+html.dark .van-hairline--left::after {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 暗色模式 Popup 和 Picker 适配 */
+html.dark .van-popup {
+  background: #1c1c1e;
+  color: var(--fg);
+}
+
+html.dark .van-picker {
+  background: #1c1c1e;
+}
+
+html.dark .van-picker__mask {
+  background-image: linear-gradient(180deg, rgba(28, 28, 30, 0.9), rgba(28, 28, 30, 0.4)),
+                    linear-gradient(0deg, rgba(28, 28, 30, 0.9), rgba(28, 28, 30, 0.4));
+}
+
+html.dark .van-picker__title, 
+html.dark .van-picker-column__item {
+  color: var(--fg);
+}
+
+/* Global Tab Dark Mode */
+html.dark .van-tabs__nav {
+  background: var(--bg);
+}
+html.dark .van-tab {
+  color: var(--placeholder);
+}
+html.dark .van-tab--active {
+  color: var(--fg);
+}
+
+/* Global Search Dark Mode */
+html.dark .van-search {
+  background: var(--bg);
+}
+html.dark .van-search__content {
+  background: var(--surface-2);
+}
+html.dark .van-search__field .van-field__control {
+  color: var(--fg);
+}
+
+/* Global Plain Button Dark Mode */
+html.dark .van-button--plain {
+  background-color: transparent !important;
+}
+html.dark .van-button--primary.van-button--plain {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+html.dark .van-button--danger.van-button--plain {
+  color: #ee0a24;
+  border-color: #ee0a24;
+}
+
+/* Global Plain Button Light Mode Fix */
+html:not(.dark) .van-button--plain {
+  background-color: #ffffff;
+}
+html:not(.dark) .van-button--primary.van-button--plain {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Global Radio Dark Mode */
+html.dark .van-radio__label {
+  color: var(--fg) !important;
+}
+
+/* 全局按钮样式 */
+.text-btn {
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 8px;
+}
+.text-btn:active {
+  opacity: 0.7;
+}
+
+html.dark .van-picker-column__item {
+  color: var(--fg);
+}
+
+html.dark .van-picker__title {
+  color: var(--fg);
+}
+
+html.dark .van-picker__cancel,
+html.dark .van-picker__confirm {
+  background: transparent;
+}
+
+html.dark .van-picker__cancel {
+  color: var(--placeholder);
+}
+
+html.dark .van-picker__confirm {
+  color: var(--accent);
+}
+
+html.dark .van-picker__toolbar {
+  background: #1c1c1e;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Global Animations */
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
