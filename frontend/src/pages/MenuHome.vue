@@ -1,29 +1,5 @@
 <template>
   <div class="menu-home">
-    <van-nav-bar
-      title="家庭菜单"
-      left-arrow
-      @click-left="$router.back()"
-      fixed
-      placeholder
-      z-index="100"
-    >
-      <template #right>
-         <div class="right-actions">
-           <button class="icon-btn" @click="handleLogout" aria-label="退出登录">
-             <Icon icon="ph:sign-out-bold" width="24" height="24" />
-           </button>
-           <button class="icon-btn" @click="toggleTheme" aria-label="切换主题">
-             <Icon 
-               :icon="isDark ? 'material-symbols:dark-mode-rounded' : 'material-symbols:light-mode-rounded'" 
-               width="24" 
-               height="24" 
-             />
-           </button>
-         </div>
-      </template>
-    </van-nav-bar>
-    
     <div class="search-box-wrapper">
       <van-search
         v-model="menuStore.searchValue"
@@ -943,7 +919,7 @@ const onSubmit = () => {
 
 .search-box-wrapper {
   position: sticky;
-  top: 46px; /* Navbar height default */
+  top: 0; /* Navbar removed */
   z-index: 90;
   background-color: var(--bg);
   padding: 8px 12px;

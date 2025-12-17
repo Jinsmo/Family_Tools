@@ -456,23 +456,90 @@ const onGeoLocate = () => {
   });
 
   navigator.geolocation.getCurrentPosition(
-    (position) => {
-      toast.close();
-      // In a real app, you would reverse geocode coordinates to address
-      // For now, we just show the coordinates as mock address
-      const { latitude, longitude } = position.coords;
-      editingAddress.value = {
-        ...editingAddress.value,
-        addressDetail: `(当前定位) 经度:${longitude.toFixed(4)}, 纬度:${latitude.toFixed(4)}`
-      };
-      messageStore.show('定位成功', 'success');
+    async (position) => {
+      try {
+        const { latitude, longitude } = position.coords;
+        
+        // 调用后端代理接口 (支持高德地图 API)
+        const response = await request.get<any, any>(`/api/location/regeo?latitude=${latitude}&longitude=${longitude}`);
+        
+        toast.close();
+
+        // 高德 API 返回结构
+        if (response && response.formatted_address) {
+          const addrComp = response.addressComponent;
+          
+          // 提取地址组件 (Amap format)
+          // adcode 是区县代码，可以直接用于 areaCode
+          const areaCode = addrComp.adcode;
+          
+          // 详细地址 = 街道 + 门牌 + 建筑
+          let detail = '';
+          if (addrComp.streetNumber && addrComp.streetNumber.street) {
+             detail += addrComp.streetNumber.street;
+             if (addrComp.streetNumber.number) {
+                detail += addrComp.streetNumber.number;
+             }
+          }
+          if (addrComp.building && addrComp.building.name && addrComp.building.name.length > 0) {
+             // 如果 building 是个数组，取第一个？通常是 string 吗？
+             // Amap API building.name 可以是 [] 或 string
+             const bName = Array.isArray(addrComp.building.name) ? '' : addrComp.building.name;
+             if (bName) detail += ' ' + bName;
+          }
+          
+          // 如果没有详细街道信息，使用 formatted_address 减去省市区
+          if (!detail) {
+             // 简单的截取逻辑，或者直接用 formatted_address
+             // Vant address-edit 会自动拼装 Province+City+County+AddressDetail
+             // 为了避免重复，我们尽量提取
+             detail = response.formatted_address;
+             // 移除省市区前缀 (简单尝试)
+             if (addrComp.province && detail.startsWith(addrComp.province)) {
+                detail = detail.replace(addrComp.province, '');
+             }
+             if (addrComp.city && typeof addrComp.city === 'string' && detail.startsWith(addrComp.city)) {
+                detail = detail.replace(addrComp.city, '');
+             }
+             if (addrComp.district && typeof addrComp.district === 'string' && detail.startsWith(addrComp.district)) {
+                detail = detail.replace(addrComp.district, '');
+             }
+          }
+
+          editingAddress.value = {
+            ...editingAddress.value,
+            areaCode: areaCode,
+            addressDetail: detail || response.formatted_address
+          };
+          
+          messageStore.show('定位成功并解析地址', 'success');
+        } else {
+          throw new Error('地址解析失败');
+        }
+      } catch (error: any) {
+        toast.close();
+        console.error(error);
+        
+        // 降级处理
+        const { latitude, longitude } = position.coords;
+        let errorMsg = '地址解析失败，仅获取经纬度';
+        if (error.response && error.response.status === 503) {
+             errorMsg = '请在服务器配置地图 API Key';
+        }
+        
+        editingAddress.value = {
+          ...editingAddress.value,
+          addressDetail: `(定位成功) 经度:${longitude.toFixed(4)}, 纬度:${latitude.toFixed(4)}`
+        };
+        messageStore.show(errorMsg, 'warning');
+      }
     },
     (error) => {
       toast.close();
       console.error(error);
       messageStore.show('定位失败，请手动输入', 'error');
     },
-    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 };
 

@@ -23,6 +23,7 @@ const ConfigSchema = z.object({
     password: z.string().optional(),
     db: z.number().int().min(0),
   }),
+  amapKey: z.string().optional(),
 });
 
 const env = process.env;
@@ -33,6 +34,7 @@ const raw = {
   appHost: env.APP_HOST ?? '127.0.0.1',
   appPort: env.APP_PORT ? Number(env.APP_PORT) : 3000,
   icpNo: env.ICP_NO ?? '',
+  amapKey: env.AMAP_KEY ?? '',
   mysql: {
     host: env.MYSQL_HOST ?? '127.0.0.1',
     port: env.MYSQL_PORT ? Number(env.MYSQL_PORT) : 3306,

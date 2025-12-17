@@ -92,6 +92,8 @@ const familyTools: ToolItem[] = [
   { name: '健康档案', icon: 'ph:heartbeat-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #34C759 0%, #5DD97B 100%)' },
   { name: '月度支出', icon: 'ph:coins-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #FF3B30 0%, #FF6B63 100%)' },
   { name: '采购清单', icon: 'ph:shopping-cart-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #5856D6 0%, #7A78FF 100%)' },
+  { name: '心愿清单', icon: 'ph:gift-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #FF6491 0%, #FF8D72 100%)' },
+  { name: '种草清单', icon: 'ph:plant-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #00B894 0%, #55EFC4 100%)', path: '/wishlist' },
   { name: '更多工具', icon: 'ph:squares-four-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #8E8E93 0%, #B0B0B5 100%)' },
 ];
 

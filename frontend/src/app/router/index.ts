@@ -23,6 +23,8 @@ const routes: RouteRecordRaw[] = [
   { path: '/admin/menus', name: 'MenuManage', component: () => import('../../pages/admin/MenuManage.vue'), meta: { title: '菜品管理' } },
   { path: '/admin/permissions', name: 'PermissionManage', component: () => import('../../pages/admin/PermissionManage.vue'), meta: { title: '权限管理' } },
   { path: '/admin/schedule', name: 'ScheduleManage', component: () => import('../../pages/admin/ScheduleManage.vue'), meta: { title: '日程安排' } },
+  { path: '/wishlist', name: 'WishlistHome', component: () => import('../../pages/wishlist/WishlistHome.vue'), meta: { title: '种草清单' } },
+  { path: '/wishlist/edit', name: 'WishlistEdit', component: () => import('../../pages/wishlist/WishlistEdit.vue'), meta: { title: '编辑种草' } },
 ];
 
 const router = createRouter({

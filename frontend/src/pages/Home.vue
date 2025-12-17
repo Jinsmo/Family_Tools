@@ -38,21 +38,22 @@
     <section class="tools-section animate-fade-in-up delay-2">
       <div class="section-header">
         <h2>常用工具</h2>
-        <span class="more-link">全部 <Icon icon="ph:caret-right-bold" /></span>
+        <span class="more-link" @click="router.push('/tools')">全部 <Icon icon="ph:caret-right-bold" /></span>
       </div>
-      <van-grid :border="false" :column-num="4" class="tools-grid" :clickable="true">
-        <van-grid-item 
-          v-for="tool in tools" 
+      <div class="tools-grid-wrapper">
+        <div 
+          v-for="(tool, index) in tools" 
           :key="tool.name" 
-          class="tool-item"
+          class="tool-card"
+          :style="{ animationDelay: `${index * 0.05}s` }"
           @click="handleToolClick(tool)"
         >
-          <div class="tool-icon-wrapper" :style="{ background: tool.bgColor, color: tool.color }">
-            <Icon :icon="tool.icon" width="24" />
+          <div class="tool-icon-box" :style="{ background: tool.bgGradient }">
+            <Icon :icon="tool.icon" class="tool-icon" :style="{ color: tool.iconColor }" />
           </div>
           <span class="tool-name">{{ tool.name }}</span>
-        </van-grid-item>
-      </van-grid>
+        </div>
+      </div>
     </section>
 
     <!-- Recent Activity / Stats -->
@@ -95,9 +96,11 @@ import { useAuthStore } from '../app/store/auth';
 import { computed, ref, onMounted } from 'vue';
 
 import { useRouter } from 'vue-router';
+import { useMessageStore } from '../app/store/message';
 
 const router = useRouter();
 const auth = useAuthStore();
+const msg = useMessageStore();
 const greetingText = ref('早安');
 const monthlyStats = [35, 28, 45, 32, 50, 42, 60, 55, 48, 65, 40, 38];
 
@@ -117,15 +120,12 @@ function updateGreeting() {
 }
 
 const handleToolClick = (tool: any) => {
-  if (tool.name === '家庭菜单') {
-    router.push('/menu');
-  } else if (tool.name === '密码助手') {
-    router.push('/password');
-  } else if (tool.name === '日程安排') {
-    router.push('/admin/schedule');
+  if (tool.path) {
+    router.push(tool.path);
+  } else if (tool.name === '更多') {
+    router.push('/tools');
   } else {
-    // Other tools placeholder
-    console.log('Clicked', tool.name);
+    msg.show(`${tool.name} 模块开发中...`, 'warning');
   }
 };
 
@@ -155,14 +155,14 @@ const banners = [
 ];
 
 const tools = [
-  { name: '家庭菜单', icon: 'ph:cooking-pot-bold', color: '#007AFF', bgColor: 'rgba(0,122,255,0.1)' },
-  { name: '密码助手', icon: 'ph:password-bold', color: '#5856D6', bgColor: 'rgba(88,86,214,0.1)' },
-  { name: '日程安排', icon: 'ph:calendar-blank-bold', color: '#FF2D55', bgColor: 'rgba(255,45,85,0.1)' },
-  { name: '待办事项', icon: 'ph:check-circle-bold', color: '#FF9500', bgColor: 'rgba(255,149,0,0.1)' },
-  { name: '家庭相册', icon: 'ph:image-bold', color: '#30B0C7', bgColor: 'rgba(48,176,199,0.1)' },
-  { name: '健康档案', icon: 'ph:heartbeat-bold', color: '#34C759', bgColor: 'rgba(52,199,89,0.1)' },
-  { name: '常用电话', icon: 'ph:address-book-bold', color: '#AF52DE', bgColor: 'rgba(175,82,222,0.1)' },
-  { name: '更多', icon: 'ph:dots-three-circle-bold', color: '#8E8E93', bgColor: 'rgba(142,142,147,0.1)' },
+  { name: '家庭菜单', icon: 'ph:cooking-pot-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #FF9500 0%, #FFB340 100%)', path: '/menu' },
+  { name: '密码助手', icon: 'ph:password-bold', iconColor: '#AF52DE', bgGradient: 'rgba(175,82,222,0.1)', path: '/password' },
+  { name: '日程安排', icon: 'ph:calendar-blank-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #FF2D55 0%, #FF5E7D 100%)', path: '/admin/schedule' },
+  { name: '待办事项', icon: 'ph:check-circle-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #007AFF 0%, #00C6FF 100%)' },
+  { name: '家庭相册', icon: 'ph:image-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #30B0C7 0%, #4AD0E8 100%)' },
+  { name: '健康档案', icon: 'ph:heartbeat-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #34C759 0%, #5DD97B 100%)' },
+  { name: '常用电话', icon: 'ph:address-book-bold', iconColor: '#00C7BE', bgGradient: 'rgba(0,199,190,0.1)' },
+  { name: '更多', icon: 'ph:squares-four-bold', iconColor: '#FFF', bgGradient: 'linear-gradient(135deg, #8E8E93 0%, #B0B0B5 100%)' },
 ];
 </script>
 
@@ -307,47 +307,51 @@ const tools = [
   display: flex;
   align-items: center;
   gap: 2px;
+  cursor: pointer;
 }
 
-.tools-grid {
-  --van-grid-item-content-background: var(--bg-card);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+.tools-grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 12px;
 }
 
-.dark .tools-grid {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  animation: fadeInUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-.tool-item {
-  --van-grid-item-content-padding: 16px 8px;
-}
-
-:deep(.van-grid-item__content) {
-  background-color: var(--bg-card);
-}
-
-.tool-icon-wrapper {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+.tool-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
-  font-size: 24px;
-  transition: transform 0.2s;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
 }
 
-.tool-item:active .tool-icon-wrapper {
+.tool-icon {
+  font-size: 26px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.tool-card:active .tool-icon-box {
   transform: scale(0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .tool-name {
   font-size: 12px;
   color: var(--fg);
   font-weight: 500;
+  text-align: center;
+  opacity: 0.9;
 }
 
 /* Annual Expense Card */

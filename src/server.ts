@@ -9,6 +9,8 @@ import menuRoutes from './routes/menuRoutes';
 import passwordRoutes from './routes/passwordRoutes';
 import scheduleRoutes from './routes/scheduleRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import locationRoutes from './routes/locationRoutes';
+import wishlistRoutes from './routes/wishlistRoutes';
 import { initDB } from './db/init';
 
 const app = express();
@@ -23,6 +25,8 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/schedule', scheduleRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/location', locationRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 app.get('/health', async (req: Request, res: Response) => {
   const [mysqlOk, redisOk] = await Promise.all([pingMySQL(), pingRedis()]);
